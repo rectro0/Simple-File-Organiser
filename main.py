@@ -5,8 +5,8 @@ import shutil
 
 
 def main():
- input 
- Download_path = Path(r"C:/Users/hamou/Downloads")
+ filePath = input("Paste your Folder path here --> ") 
+ Download_path = Path(filePath)
 
 
  files = {
