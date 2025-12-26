@@ -1,0 +1,11 @@
+__pycache__/
+*.log
+*.exe
+PDFs/
+Images/
+Zip/
+Videos/
+Audio/
+Document/
+torrents/
+others/

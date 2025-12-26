@@ -1,22 +1,20 @@
-import time
 from pathlib import Path
+import time
 from watchdog.observers import Observer
-from watchdog import EventHandler
+from watcher import EventHandler
+from sorter import FileSorter
 
-filePath = input("Paste your Folder path here --> ")
-
-download_path = Path(filePath)
-
+download_path = Path(input("Paste your Folder path here → "))
 
 files = {
-    "PDFs": Path(download_path) / "PDFs",
-    "Images": Path(download_path) / "Images",
-    "Archives": Path(download_path) / "Zip",
-    "Videos": Path(download_path) / "Videos",
-    "Music": Path(download_path) / "Audio",
-    "Documents": Path(download_path) / "Document",
-    "Torrents": Path(download_path) / "torrents",
-    "others": Path(download_path) / "others",
+    "PDFs": download_path / "PDFs",
+    "Images": download_path / "Images",
+    "Archives": download_path / "Zip",
+    "Videos": download_path / "Videos",
+    "Music": download_path / "Audio",
+    "Documents": download_path / "Document",
+    "Torrents": download_path / "torrents",
+    "others": download_path / "others",
 }
 
 file_types = {
@@ -30,13 +28,20 @@ file_types = {
     "others": [],
 }
 
-event_handler = EventHandler(download_path, files, file_types)
+sorter = FileSorter(download_path, files, file_types)
+
+# sort existing files first
+for item in download_path.iterdir():
+    sorter.sort_file(item)
+
 observer = Observer()
+event_handler = EventHandler(sorter)
 observer.schedule(event_handler, download_path, recursive=False)
 observer.start()
 
+print(f"Watching folder: {download_path}")
+
 try:
-    print(f"Watching for changes in: {download_path}")
     while True:
         time.sleep(1)
 except KeyboardInterrupt:
