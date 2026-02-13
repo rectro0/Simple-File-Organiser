@@ -9,7 +9,7 @@ class FileSorter:
         self.file_types = file_types
 
         for folder in self.files.values():
-            folder.mkdir(exist_ok=True)
+            folder.mkdir( exist_ok=True)
 
     def sort_file(self, file_path):
         file_path = Path(file_path)
